@@ -1,0 +1,28 @@
+{
+  "type": "module",
+  "name": "nnn-ical",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^12.0.0",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "@types/jsdom": "^30.0.0",
+    "jsdom": "^30.0.1",
+    "tsdown": "^0.23.0"
+  },
+  "scripts": {
+    "build": "tsdown"
+  },
+  "dependencies": {
+    "ics": "^3.12.0"
+  }
+}
