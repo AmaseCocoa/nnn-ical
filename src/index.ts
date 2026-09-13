@@ -3,11 +3,6 @@ import { toIcs } from "./ical.js";
 
 (function () {
   "use strict";
-})();
-
-// src/index.ts
-(function () {
-  "use strict";
   try {
     const cards = extractScheduleCards();
     const icsContent = toIcs(cards);

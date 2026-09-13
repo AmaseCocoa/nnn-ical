@@ -4,10 +4,11 @@ const banner = `// ==UserScript==
 // @name         スクーリング日程を.icsファイルに書き出してくれるツール
 // @namespace    https://github.com/AmaseCocoa/nnn-ical
 // @version      0.1.0
-// @description  tsdownを使った快適なTypeScript開発環境
-// @author       YourName
-// @match        https://secure.nnn.ed.jp*
-// @match        https://*-secure.nnn.ed.jp/*
+// @description  スクーリング日程をical形式に変換して読み込めるようにするツールです
+// @author       AmaseCocoa
+// @match        https://secure.nnn.ed.jp/mypage/schooling/detail
+// @match        https://s-secure.nnn.ed.jp/mypage/schooling/detail
+// @match        https://r-secure.nnn.ed.jp/mypage/schooling/detail
 // @run-at       context-menu
 // @grant        none
 // ==/UserScript==
