@@ -1,12 +1,11 @@
 {
   "type": "module",
+
   "name": "nnn-ical",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "version": "0.2.0",
+  "author": "AmaseCocoa",
+  "license": "MIT",
+
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
@@ -19,6 +18,7 @@
     "jsdom": "^30.0.1",
     "tsdown": "^0.23.0"
   },
+  
   "scripts": {
     "build": "tsdown"
   }

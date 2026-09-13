@@ -5,3 +5,6 @@ N Lobbyのスクーリングの時間割をパースしてicsファイルとし�
 User Scriptが実行できる拡張機能を導入したブラウザが必要です。スマホは対応していません。 (今のところ)
 
 https://amasecocoa.github.io/nnn-ical/script.user.js
+
+## License
+MIT License
