@@ -30,6 +30,14 @@ export function extractScheduleCards(target?: Document | Element): CardData[] {
         throw new Error('有効な Document または Element オブジェクトが提供されていません。');
     }
 
+    const descriptionDiv = rootElement.querySelector<HTMLElement>('[data-entry-descriptions]');
+    if (descriptionDiv) {
+        const text = descriptionDiv.textContent?.trim() || '';
+        if (text.includes('未掲載') || text.includes('準備中')) {
+            throw new Error(`スケジュールはまだ未掲載です`);
+        }
+    }
+
     const cards = rootElement.querySelectorAll<HTMLElement>('.card-body');
     const result: CardData[] = [];
 

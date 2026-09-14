@@ -25,7 +25,16 @@ import { toIcs } from "./ical.js";
       URL.revokeObjectURL(downloadUrl);
     }
   } catch (error) {
-    alert("エラーが発生しました");
-    console.error(error);
+    if (error instanceof Error) {
+      if (error.message === "スケジュールはまだ未掲載です") {
+        alert("スケジュールが未掲載のため、生成できません。")
+      } else {
+        alert("エラーが発生しました。詳細はコンソールを確認してください。");
+        console.error("不明なエラーが発生しました: ", error);
+      }
+    } else {
+      alert("エラーが発生しました。詳細はコンソールを確認してください。");
+      console.error("不明なエラーが発生しました: ", error);
+    }
   }
 })();

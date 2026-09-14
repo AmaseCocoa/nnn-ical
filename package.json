@@ -4,7 +4,13 @@
   "name": "nnn-ical",
   "version": "0.2.0",
   "author": "AmaseCocoa",
+  "description": "スクーリング日程をical形式に変換して読み込めるようにするツールです",
   "license": "MIT",
+
+  "homepage": "https://github.com/AmaseCocoa/nnn-ical",
+  "bugs": {
+    "url": "https://github.com/AmaseCocoa/nnn-ical/issues"
+  },
 
   "devEngines": {
     "packageManager": {
@@ -18,7 +24,7 @@
     "jsdom": "^30.0.1",
     "tsdown": "^0.23.0"
   },
-  
+
   "scripts": {
     "build": "tsdown"
   }

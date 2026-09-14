@@ -1,16 +1,21 @@
 import { defineConfig } from 'tsdown'
+import packageJson from './package.json' with { type: 'json' };
 
 const banner = `// ==UserScript==
 // @name         スクーリング日程を.icsファイルに書き出してくれるツール
-// @namespace    https://github.com/AmaseCocoa/nnn-ical
-// @version      0.2.0
-// @description  スクーリング日程をical形式に変換して読み込めるようにするツールです
-// @author       AmaseCocoa
+// @namespace    ${packageJson.homepage}
+// @license      ${packageJson.license}
+// @supportURL   ${packageJson.bugs.url}
+// @updateURL    https://amasecocoa.github.io/nnn-ical/script.user.js
+// @downloadURL  https://amasecocoa.github.io/nnn-ical/script.user.js
+// @version      ${packageJson.version}
+// @description  ${packageJson.description}
+// @author       ${packageJson.author}
+// @run-at       context-menu
+// @grant        none
 // @match        https://secure.nnn.ed.jp/mypage/schooling/*
 // @match        https://s-secure.nnn.ed.jp/mypage/schooling/*
 // @match        https://r-secure.nnn.ed.jp/mypage/schooling/*
-// @run-at       context-menu
-// @grant        none
 // ==/UserScript==
 `
 
