@@ -6,6 +6,14 @@ function pad2(n: number): string {
   return n < 10 ? `0${n}` : `${n}`;
 }
 
+/** Date -> local `YYYYMMDDTHHMMSS` */
+function formatDateLocal(date: Date): string {
+  return (
+    `${date.getFullYear()}${pad2(date.getMonth() + 1)}${pad2(date.getDate())}` +
+    `T${pad2(date.getHours())}${pad2(date.getMinutes())}${pad2(date.getSeconds())}`
+  );
+}
+
 /** Date -> UTC `YYYYMMDDTHHMMSSZ` */
 function formatDateUtc(date: Date): string {
   return (
@@ -88,6 +96,7 @@ export function toIcs(data: CardData[]): string {
     "PRODID:-//nnn-ical//JA",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
+    "X-WR-TIMEZONE:Asia/Tokyo",
   ];
 
   for (const d of data) {
@@ -99,8 +108,8 @@ export function toIcs(data: CardData[]): string {
         lines.push("BEGIN:VEVENT");
         lines.push(`UID:${generateUid()}`);
         lines.push(`DTSTAMP:${dtstamp}`);
-        lines.push(`DTSTART:${formatDateUtc(subject.startAt)}`);
-        lines.push(`DTEND:${formatDateUtc(subject.endAt)}`);
+        lines.push(`DTSTART;TZID=Asia/Tokyo:${formatDateLocal(subject.startAt)}`);
+        lines.push(`DTEND;TZID=Asia/Tokyo:${formatDateLocal(subject.endAt)}`);
         lines.push(
           `SUMMARY:${escapeText(`${subject.location}教室: ${subject.subject}`)}`,
         );
