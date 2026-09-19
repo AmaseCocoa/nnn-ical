@@ -2,7 +2,7 @@
   "type": "module",
 
   "name": "nnn-ical",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "AmaseCocoa",
   "description": "スクーリング日程をical形式に変換して読み込めるようにするツールです",
   "license": "MIT",
