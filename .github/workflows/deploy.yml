@@ -26,7 +26,7 @@ jobs:
 
       - uses: pnpm/setup@v2
         with:
-         version: 12.5.1
+         version: 12.4.1
          
       - name: Build UserScript
         run: pnpm run build
