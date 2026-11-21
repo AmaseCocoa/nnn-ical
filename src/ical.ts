@@ -32,8 +32,7 @@ function escapeText(value: string): string {
 }
 
 /**
- * RFC 5545 3.1 に基づく折り返し（75オクテット超で行分割し、継続行の先頭に半角スペース）。
- * マルチバイト文字を分割しないよう UTF-8 バイト長で数える。
+- RFC 5545 3.1 に基づく折り返し UTF-8 バイト長で数える
  */
 function foldLine(line: string): string {
   if (typeof TextEncoder === "undefined") {
@@ -60,7 +59,7 @@ function foldLine(line: string): string {
     const chBytes = encoder.encode(ch).length;
     if (bytes + chBytes > limit) {
       out += "\r\n ";
-      bytes = 1; // 継続行先頭の半角スペース分
+      bytes = 1;
     }
     out += ch;
     bytes += chBytes;
@@ -68,27 +67,28 @@ function foldLine(line: string): string {
   return out;
 }
 
-function generateUid(): string {
-  const cryptoObj =
-    typeof crypto !== "undefined" && "randomUUID" in crypto
-      ? crypto
-      : null;
-  if (cryptoObj) {
-    return `${crypto.randomUUID()}@nnn-ical`;
-  }
-  const rand = Math.floor(Math.random() * 0xffffffff).toString(16);
-  return `${Date.now()}-${rand}@nnn-ical`;
-}
-
 function venueKey(venue: string): string {
   const target = "キャンパス";
-  const text = venue.endsWith(target)
-    ? venue.slice(0, -target.length)
-    : venue;
+  const text = venue.endsWith(target) ? venue.slice(0, -target.length) : venue;
   return text.trimEnd();
 }
 
-export function toIcs(data: CardData[]): string {
+async function generateUid(venue: string, startAt: Date): Promise<string> {
+  const key = venueKey(venue);
+  const datePart = `${startAt.getFullYear()}${pad2(startAt.getMonth() + 1)}${pad2(startAt.getDate())}`;
+  const timePart = `${pad2(startAt.getHours())}${pad2(startAt.getMinutes())}${pad2(startAt.getSeconds())}`;
+  const rawKey = `${key}|${datePart}|${timePart}`;
+
+  const data = new TextEncoder().encode(rawKey);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashHex = Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return `${hashHex}@nnn-ical`;
+}
+
+export async function toIcs(data: CardData[]): Promise<string> {
   const dtstamp = formatDateUtc(new Date());
   const lines: string[] = [
     "BEGIN:VCALENDAR",
@@ -105,10 +105,13 @@ export function toIcs(data: CardData[]): string {
 
     for (const schedule of d.schedules) {
       for (const subject of schedule.items) {
+        const uid = await generateUid(d.venue, subject.startAt);
         lines.push("BEGIN:VEVENT");
-        lines.push(`UID:${generateUid()}`);
+        lines.push(`UID:${uid}`);
         lines.push(`DTSTAMP:${dtstamp}`);
-        lines.push(`DTSTART;TZID=Asia/Tokyo:${formatDateLocal(subject.startAt)}`);
+        lines.push(
+          `DTSTART;TZID=Asia/Tokyo:${formatDateLocal(subject.startAt)}`,
+        );
         lines.push(`DTEND;TZID=Asia/Tokyo:${formatDateLocal(subject.endAt)}`);
         lines.push(
           `SUMMARY:${escapeText(`${subject.location}教室: ${subject.subject}`)}`,
