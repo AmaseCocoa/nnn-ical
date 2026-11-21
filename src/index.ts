@@ -1,11 +1,11 @@
 import { extractScheduleCards } from "./extract.js";
 import { toIcs } from "./ical.js";
 
-(function () {
+(async function () {
   "use strict";
   try {
     const cards = extractScheduleCards();
-    const icsContent = toIcs(cards);
+    const icsContent = await toIcs(cards);
 
     if (icsContent) {
       const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
@@ -27,7 +27,7 @@ import { toIcs } from "./ical.js";
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "スケジュールはまだ未掲載です") {
-        alert("スケジュールが未掲載のため、生成できません。")
+        alert("スケジュールが未掲載のため、生成できません。");
       } else {
         alert("エラーが発生しました。詳細はコンソールを確認してください。");
         console.error("不明なエラーが発生しました: ", error);
